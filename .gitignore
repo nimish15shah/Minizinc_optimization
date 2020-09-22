@@ -1,5 +1,6 @@
 **/no_backup/
 **/log/
 **/logs/
-*.log
-*.fzn
+**/*.log
+**/*.fzn
+**/*.dzn

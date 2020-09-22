@@ -33,7 +33,7 @@ constraint forall(n in NODES) (
 %  );
 
 constraint forall(n in NODES) (
-  node_active[n] = forall (p in predecessors[n]) (done_CU[p] == done_CU[n])
+  node_active[n] = forall (p in predecessors[n]) (done_CU[p] == done_CU[n] /\ done_CU_active[p] != 0)
 );
 constraint forall(n in NODES) (
   done_CU_active[n]= node_active[n] * done_CU[n]

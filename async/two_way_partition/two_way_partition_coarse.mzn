@@ -1,5 +1,5 @@
 
-include "globals.mzn";
+%include "globals.mzn";
 
 int: N;
 int: n_CU;
@@ -57,6 +57,7 @@ curr_CU_active[edges[e,2]]);
 % objective
 var int: obj;
 constraint obj= 8*min(mapped_per_CU_active) + tot_local_edges;
+%constraint obj= 100*min(mapped_per_CU_active) + 10*tot_local_edges + sum(mapped_per_CU_active);
 %constraint obj= 2*sum(mapped_per_CU_active) + min(mapped_per_CU_active) + tot_local_edges;
 %constraint obj= 2*sum(mapped_per_CU_active);
 

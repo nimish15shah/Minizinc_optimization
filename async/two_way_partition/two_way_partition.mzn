@@ -1,4 +1,3 @@
-
 include "globals.mzn";
 
 int: N;
@@ -62,6 +61,7 @@ curr_CU_active[edges[e,2]]);
 var int: obj;
 %constraint obj= sum(sort(mapped_per_CU)[1..32]);
 constraint obj= 8*min(mapped_per_CU_active) + tot_local_edges;
+%constraint obj= 100*min(mapped_per_CU_active) + 10*tot_local_edges + sum(mapped_per_CU_active);
 %constraint obj= 2*sum(mapped_per_CU_active) + min(mapped_per_CU_active) + tot_local_edges;
 %constraint obj= 2*sum(mapped_per_CU_active);
 

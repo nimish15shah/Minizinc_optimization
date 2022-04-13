@@ -11,12 +11,15 @@ array[VERTICES] of set of VERTICES: successors;
 array[VERTICES] of int: SLACK_DICT;
 array[VERTICES] of set of VERTICES: predecessors;
 int :E;
+set of int: EDGE_SET= 1..E;
 array[1..E, 1..2] of 1..V: edges;
 
 % variables
 array [VERTICES] of var 1..TMAX: T;
 array [VERTICES] of var 1..D: L;
 
+array [VERTICES] of set of EDGE_SET: out_edges;
+array [VERTICES] of set of EDGE_SET: in_edges;
 
 array [1..E] of var bool: edge_in_same_T = [(T[edges[e,1]] == T[edges[e,2]]) | e in 1..E];
 array [1..E] of var 0..(D-1): alu_cost_per_edge;
@@ -54,7 +57,8 @@ constraint forall(v in 1..V) (
 % top constraint
 constraint forall(v in 1..V) (
 %    top[v] = exist(s in successors[v]) (T[s] > T[v])
-    output_cost_per_v[v] == (1 - (forall(s in successors[v]) (T[s] = T[v])))
+%    output_cost_per_v[v] == (1 - (forall(s in successors[v]) (T[s] = T[v])))
+    output_cost_per_v[v] == (1 - (forall(e in out_edges[v]) (edge_in_same_T[e])))
   );
 
 constraint forall(v in 1..V) (
@@ -63,7 +67,8 @@ constraint forall(v in 1..V) (
 
 % at max 1 successor in same T
 constraint forall(v in 1..V) (
-    effective_succ_in_same_T[v] = sum(s in successors[v]) (T[s] == T[v]) 
+%    effective_succ_in_same_T[v] = sum(s in successors[v]) (T[s] == T[v]) 
+    effective_succ_in_same_T[v] = sum(e in out_edges[v]) (edge_in_same_T[e]) 
   );
 
 % fix the final node
